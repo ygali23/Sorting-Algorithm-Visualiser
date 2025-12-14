@@ -12,12 +12,12 @@ A modern, interactive visualisation of classic sorting algorithms built with
 
 ---
 
-## 🚀 Live Demo
-👉 **https://ygali23.github.io/Sorting-Algorithm-Visualiser/**
+## live demo
+**https://ygali23.github.io/Sorting-Algorithm-Visualiser/**
 
 ---
 
-## ✨ Features
+## features
 - Compare **1–4 algorithms** side-by-side
 - One-click **Solo Algorithm** mode
 - Bars mode and Lines mode
@@ -30,7 +30,7 @@ A modern, interactive visualisation of classic sorting algorithms built with
 
 ---
 
-## 🧠 Algorithms Included
+## algorithms included
 | Algorithm | Time Complexity |
 |---------|-----------------|
 | Bubble Sort | O(n²) |
@@ -44,7 +44,7 @@ A modern, interactive visualisation of classic sorting algorithms built with
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## keyboard shortcuts
 | Key | Action |
 |----|-------|
 | Space | Play / Pause |
