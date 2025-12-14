@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sorting Visualizer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ================= TOP GRID ================= -->
+    <header class="topGrid">
+
+      <!-- LEFT: TITLE + AUTHOR -->
+      <div class="title">
+        <h1>Sorting Visualizer</h1>
+        <p>
+          Play, scrub, and compare sorting algorithms.
+          Bars or lines. Sound + race board included.
+        </p>
+
+        <!-- Author block -->
+        <div class="author">
+          <div>by: <strong>Aasim</strong></div>
+          <div>
+            github:
+            <a
+              href="https://github.com/ygali23"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="authorLink mono"
+            >
+              @ygali23
+            </a>
+          </div>
+          <div>
+            email:
+            <a
+              href="mailto:a4sim.ali@gmail.com"
+              class="authorLink mono"
+            >
+              a4sim.ali@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: CONTROLS -->
+      <div class="controls glass">
+
+        <div class="row">
+          <button class="btn" id="shuffleBtn">↻ Shuffle</button>
+          <button class="btn primary" id="playBtn">
+            ▶ Play <span class="kbd">Space</span>
+          </button>
+          <button class="btn" id="stepBtn">
+            ⏭ Step <span class="kbd">.</span>
+          </button>
+          <button class="btn danger" id="stopBtn" disabled>
+            ■ Stop <span class="kbd">S</span>
+          </button>
+        </div>
+
+        <div class="row toggles">
+          <button class="toggle" id="modeToggle" aria-checked="false">
+            <span class="switch"><span class="knob"></span></span>
+            <span class="label">Lines <span class="kbd">L</span></span>
+          </button>
+          <button class="toggle" id="soundToggle" aria-checked="false">
+            <span class="switch"><span class="knob"></span></span>
+            <span class="label">Sound <span class="kbd">T</span></span>
+          </button>
+        </div>
+
+        <div class="row sliders">
+          <label>
+            Size
+            <input id="sizeRange" type="range" min="24" max="200" value="96" />
+            <span class="tiny" id="sizeVal">96</span>
+          </label>
+          <label>
+            Speed
+            <input id="speedRange" type="range" min="1" max="100" value="60" />
+            <span class="tiny" id="speedVal">60</span>
+          </label>
+        </div>
+
+        <div class="row compare">
+
+          <div class="box">
+            <div class="groupTitle">Run Algorithms</div>
+            <div class="checks">
+              <label class="check">
+                <input type="checkbox" class="laneCheck" data-lane="0" checked />
+                <span>1</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" class="laneCheck" data-lane="1" checked />
+                <span>2</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" class="laneCheck" data-lane="2" checked />
+                <span>3</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" class="laneCheck" data-lane="3" checked />
+                <span>4</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="groupTitle">Presets</div>
+            <select class="select" id="presetSelect" aria-label="Preset comparisons">
+              <option value="all">All</option>
+              <option value="first2">First 2</option>
+              <option value="first3">First 3</option>
+              <option value="solo1">Solo 1</option>
+              <option value="solo2">Solo 2</option>
+              <option value="solo3">Solo 3</option>
+              <option value="solo4">Solo 4</option>
+            </select>
+          </div>
+
+          <div class="box shortcuts">
+            <div class="groupTitle">Shortcuts</div>
+            <div class="shortGrid">
+              <div><span class="kbd">Space</span><span>Play / Pause</span></div>
+              <div><span class="kbd">.</span><span>Step</span></div>
+              <div><span class="kbd">S</span><span>Stop</span></div>
+              <div><span class="kbd">R</span><span>Shuffle</span></div>
+              <div><span class="kbd">L</span><span>Toggle Lines</span></div>
+              <div><span class="kbd">T</span><span>Toggle Sound</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: NOW PLAYING PANEL -->
+      <aside class="panel glass" aria-label="Now Playing panel">
+
+        <div class="panelHead">
+          <div class="panelTitle">Now Playing</div>
+          <div class="panelPills">
+            <span class="pill" id="pillMode">Bars</span>
+            <span class="pill" id="pillSound">Sound Off</span>
+          </div>
+        </div>
+
+        <div class="panelRow">
+          <div class="panelLabel">Step</div>
+          <div class="panelValue mono" id="panelStep">0 / 0</div>
+        </div>
+
+        <div class="panelRow">
+          <div class="panelLabel">Active</div>
+          <div class="panelValue" id="panelActive">—</div>
+        </div>
+
+        <div class="panelList" id="panelList"></div>
+
+        <div class="panelFoot">
+          <div class="panelHint mono">
+            <span class="kbd">Space</span> Play
+            <span class="kbd">.</span> Step
+            <span class="kbd">S</span> Stop
+            <span class="kbd">R</span> Shuffle
+          </div>
+        </div>
+      </aside>
+
+    </header>
+
+    <!-- ================= ALGORITHMS ================= -->
+    <section id="lanes" class="lanes"></section>
+
+    <!-- ================= RACE BOARD ================= -->
+    <section class="race glass">
+      <div class="raceHead">
+        <div>
+          <div class="raceTitle">Comparison Board</div>
+          <div class="raceSub">Operations over time (cmp + swp)</div>
+        </div>
+        <div class="scrub">
+          <input id="scrubRange" type="range" min="0" max="0" value="0" />
+          <span class="tiny" id="scrubVal">0 / 0</span>
+        </div>
+      </div>
+
+      <canvas id="raceCanvas" height="140"></canvas>
+      <div id="raceLegend" class="legend"></div>
+    </section>
+
+    <!-- ================= MISC ================= -->
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <div id="explain" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modalCard">
+        <div class="modalHead">
+          <div>
+            <div id="explainTitle" class="modalTitle">What happened?</div>
+            <div id="explainSub" class="modalSub"></div>
+          </div>
+          <button id="explainClose" class="btn soft">Close</button>
+        </div>
+        <div id="explainBody" class="modalBody"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
